@@ -1,0 +1,2 @@
+../src/hw/driver/cdc.c:14:6:cdcInit	16	static
+../src/hw/driver/cdc.c:24:6:cdcIsInit	4	static

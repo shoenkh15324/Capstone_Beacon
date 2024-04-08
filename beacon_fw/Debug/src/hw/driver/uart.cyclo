@@ -1,0 +1,11 @@
+../src/hw/driver/uart.c:36:6:uartInit	2
+../src/hw/driver/uart.c:46:6:uartOpen	9
+../src/hw/driver/uart.c:139:10:uartAvailable	5
+../src/hw/driver/uart.c:167:9:uartRead	5
+../src/hw/driver/uart.c:193:10:uartWrite	7
+../src/hw/driver/uart.c:228:10:uartPrintf	1
+../src/hw/driver/uart.c:246:10:uartGetBaud	5
+../src/hw/driver/uart.c:276:6:HAL_UART_ErrorCallback	1
+../src/hw/driver/uart.c:283:6:HAL_UART_RxCpltCallback	1
+../src/hw/driver/uart.c:298:6:HAL_UART_MspInit	5
+../src/hw/driver/uart.c:398:6:HAL_UART_MspDeInit	3
