@@ -143,7 +143,7 @@ uint32_t uartAvailable(uint8_t ch)
   switch(ch)
   {
     case _DEF_UART1:
-      ret = cdcAvailable();
+      //ret = cdcAvailable();
       break;
 
     case _DEF_UART2:
@@ -171,7 +171,7 @@ uint8_t uartRead(uint8_t ch)
   switch(ch)
   {
     case _DEF_UART1:
-      ret = cdcRead();
+      //ret = cdcRead();
       break;
 
     case _DEF_UART2:
@@ -198,7 +198,7 @@ uint32_t uartWrite(uint8_t ch, uint8_t *p_data, uint32_t length)
   switch(ch)
   {
     case _DEF_UART1:
-      ret = cdcWrite(p_data, length);
+      //ret = cdcWrite(p_data, length);
       break;
 
     case _DEF_UART2:
@@ -270,6 +270,14 @@ uint32_t uartGetBaud(uint8_t ch)
   return ret;
 }
 
+bool uartCheckChannel(uint8_t ch)
+{
+  bool ret;
+
+  ret = is_open[ch];
+
+  return ret;
+}
 
 
 #ifdef _USE_UART2

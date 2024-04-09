@@ -1,2 +1,2 @@
-../src/hw/driver/beacon.c:29:6:beaconInit	1
-../src/hw/driver/beacon.c:47:6:cliBeacon	6
+../src/hw/driver/beacon.c:32:6:beaconInit	1
+../src/hw/driver/beacon.c:57:6:cliBeacon	9

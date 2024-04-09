@@ -12,8 +12,8 @@ void hwInit(void)
 {
   bspInit();
 
-  ledInit();
-  cdcInit();
+  //ledInit();
+  //cdcInit();
   uartInit();
   cliInit();
   beaconInit();
