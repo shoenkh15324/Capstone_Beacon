@@ -14,6 +14,7 @@
 #include "cli.h"
 #include "cdc.h"
 #include "uart.h"
+#include "gpio.h"
 #include "beacon.h"
 
 

@@ -10,6 +10,7 @@
 "./src/hw/driver/beacon.o"
 "./src/hw/driver/cdc.o"
 "./src/hw/driver/cli.o"
+"./src/hw/driver/gpio.o"
 "./src/hw/driver/led.o"
 "./src/hw/driver/uart.o"
 "./src/hw/hw.o"

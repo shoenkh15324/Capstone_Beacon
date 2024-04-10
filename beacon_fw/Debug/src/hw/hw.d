@@ -29,6 +29,7 @@ src/hw/hw.o: ../src/hw/hw.c ../src/hw/hw.h ../src/hw/hw_def.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/cli.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/cdc.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/uart.h \
+ C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/gpio.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/beacon.h
 ../src/hw/hw.h:
 ../src/hw/hw_def.h:
@@ -62,4 +63,5 @@ C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/hw/hw_def.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/cli.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/cdc.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/uart.h:
+C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/gpio.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/beacon.h:
