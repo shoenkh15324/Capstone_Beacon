@@ -1,0 +1,8 @@
+../src/hw/driver/dht22.c:33:6:dht22Init	24	static
+../src/hw/driver/dht22.c:57:6:ONE_WIRE_PinMode	32	static
+../src/hw/driver/dht22.c:80:6:ONE_WIRE_Pin_Write	16	static
+../src/hw/driver/dht22.c:86:6:ONE_WIRE_Pin_Read	8	static
+../src/hw/driver/dht22.c:92:6:DHT22_StartAcquisition	8	static
+../src/hw/driver/dht22.c:109:6:DHT22_ReadRaw	24	static
+../src/hw/driver/dht22.c:148:6:DHT22_GetTemp_Humidity	32	static
+../src/hw/driver/dht22.c:179:6:cliDHT22	48	static

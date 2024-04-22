@@ -1,0 +1,4 @@
+../src/hw/driver/button.c:35:6:buttonInit	2
+../src/hw/driver/button.c:61:6:buttonGetPressed	3
+../src/hw/driver/button.c:78:6:buttonToggle	5
+../src/hw/driver/button.c:123:6:cliButton	6

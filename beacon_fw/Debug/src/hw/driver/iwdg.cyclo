@@ -1,0 +1,3 @@
+../src/hw/driver/iwdg.c:18:6:iwdgInit	1
+../src/hw/driver/iwdg.c:23:6:iwdgBegin	3
+../src/hw/driver/iwdg.c:41:6:iwdgRefresh	1

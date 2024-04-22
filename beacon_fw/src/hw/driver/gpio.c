@@ -23,10 +23,7 @@ typedef struct
 
 const gpio_tbl_t gpio_tbl[GPIO_MAX_CH] =
     {
-        {GPIOB, GPIO_PIN_11, _DEF_OUTPUT, GPIO_PIN_RESET, GPIO_PIN_SET, _DEF_HIGH},  // 3.
-        {GPIOB, GPIO_PIN_13, _DEF_OUTPUT, GPIO_PIN_SET, GPIO_PIN_RESET, _DEF_HIGH},  // 4.
-        {GPIOB, GPIO_PIN_14, _DEF_OUTPUT, GPIO_PIN_SET, GPIO_PIN_RESET, _DEF_HIGH},  // 5.
-        {GPIOB, GPIO_PIN_15, _DEF_OUTPUT, GPIO_PIN_SET, GPIO_PIN_RESET, _DEF_HIGH},  // 6.
+        {GPIOB, GPIO_PIN_1, _DEF_IT_RISING_PULLUP, GPIO_PIN_SET, GPIO_PIN_RESET, _DEF_HIGH},  // 1.
     };
 
 
@@ -39,7 +36,6 @@ bool gpioInit(void)
 {
   bool ret = true;
 
-
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
@@ -48,6 +44,10 @@ bool gpioInit(void)
     gpioPinMode(i, gpio_tbl[i].mode);
     gpioPinWrite(i, gpio_tbl[i].init_value);
   }
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 
 #ifdef _USE_HW_CLI
   cliAdd("gpio", cliGpio);
@@ -96,6 +96,36 @@ bool gpioPinMode(uint8_t ch, uint8_t mode)
 
     case _DEF_OUTPUT_PULLDOWN:
       GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+      GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+      break;
+
+    case _DEF_IT_RISING:
+      GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+      GPIO_InitStruct.Pull = GPIO_NOPULL;
+      break;
+
+    case _DEF_IT_RISING_PULLUP:
+      GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+      GPIO_InitStruct.Pull = GPIO_PULLUP;
+      break;
+
+    case _DEF_IT_RISING_PULLDOWN:
+      GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+      GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+      break;
+
+    case _DEF_IT_FALLING:
+      GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+      GPIO_InitStruct.Pull = GPIO_NOPULL;
+      break;
+
+    case _DEF_IT_FALLING_PULLUP:
+      GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+      GPIO_InitStruct.Pull = GPIO_PULLUP;
+      break;
+
+    case _DEF_IT_FALLING_PULLDOWN:
+      GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
       GPIO_InitStruct.Pull = GPIO_PULLDOWN;
       break;
   }

@@ -12,7 +12,7 @@
 
 
 bool beaconInit(void);
-void beaconStart(uint8_t ch, uint32_t baud);
-
+void handleBeaconStart(void);
+void changeBeaconStarted(bool value);
 
 #endif /* SRC_COMMON_HW_INCLUDE_BEACON_H_ */

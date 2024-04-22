@@ -1,0 +1,4 @@
+../src/hw/driver/button.c:35:6:buttonInit	40	static
+../src/hw/driver/button.c:61:6:buttonGetPressed	24	static
+../src/hw/driver/button.c:78:6:buttonToggle	24	static
+../src/hw/driver/button.c:123:6:cliButton	32	static

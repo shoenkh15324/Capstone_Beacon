@@ -24,10 +24,12 @@ src/hw/driver/beacon.o: ../src/hw/driver/beacon.c \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h \
+ C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_iwdg.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
  C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/uart.h \
- C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/cli.h
+ C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/cli.h \
+ C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/button.h
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/beacon.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/hw/hw_def.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/def.h:
@@ -53,7 +55,9 @@ C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drive
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h:
+C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_iwdg.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/lib/beacon_f103/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/uart.h:
 C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/cli.h:
+C:/Users/mok07/Desktop/Study/Capstone/beacon/beacon_fw/src/common/hw/include/button.h:

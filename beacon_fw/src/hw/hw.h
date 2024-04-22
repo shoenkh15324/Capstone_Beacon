@@ -10,12 +10,15 @@
 
 #include "hw_def.h"
 
+#include "iwdg.h"
 #include "led.h"
 #include "cli.h"
 #include "cdc.h"
 #include "uart.h"
 #include "gpio.h"
 #include "beacon.h"
+#include "button.h"
+#include "dht22.h"
 
 
 void hwInit(void);

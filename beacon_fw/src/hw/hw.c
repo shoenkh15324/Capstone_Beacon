@@ -10,12 +10,16 @@
 
 void hwInit(void)
 {
-  bspInit();
+//  iwdgInit();
+//  iwdgBegin(1250); // 500.8ms
 
+  bspInit();
+  cliInit();
   ledInit();
   cdcInit();
   uartInit();
-  cliInit();
   gpioInit();
   beaconInit();
+  buttonInit();
+  dht22Init(GPIOB, GPIO_PIN_0);
 }

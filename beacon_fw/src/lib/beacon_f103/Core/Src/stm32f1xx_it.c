@@ -51,7 +51,7 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+extern void swtimerISR(void);
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -190,7 +190,7 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-
+  swtimerISR();
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -212,6 +212,20 @@ void RCC_IRQHandler(void)
   /* USER CODE BEGIN RCC_IRQn 1 */
 
   /* USER CODE END RCC_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line1 interrupt.
+  */
+void EXTI1_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI1_IRQn 0 */
+
+  /* USER CODE END EXTI1_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
+  /* USER CODE BEGIN EXTI1_IRQn 1 */
+
+  /* USER CODE END EXTI1_IRQn 1 */
 }
 
 /**

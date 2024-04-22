@@ -13,6 +13,7 @@
 
 void bspInit(void);
 void delay(uint32_t ms);
+void us_delay(__IO uint32_t nCount);
 uint32_t millis(void);
 void Error_Handler(void);
 

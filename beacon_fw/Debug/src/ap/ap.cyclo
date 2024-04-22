@@ -1,2 +1,3 @@
-../src/ap/ap.c:14:6:apInit	1
-../src/ap/ap.c:19:6:apMain	1
+../src/ap/ap.c:20:6:apInit	1
+../src/ap/ap.c:28:6:apMain	2
+../src/ap/ap.c:61:6:StopMode	1

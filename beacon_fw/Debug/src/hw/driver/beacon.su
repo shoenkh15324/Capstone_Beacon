@@ -1,2 +1,4 @@
-../src/hw/driver/beacon.c:32:6:beaconInit	16	static
-../src/hw/driver/beacon.c:57:6:cliBeacon	32	static
+../src/hw/driver/beacon.c:46:6:beaconInit	16	static
+../src/hw/driver/beacon.c:80:6:handleBeaconStart	32	static
+../src/hw/driver/beacon.c:101:6:changeBeaconStarted	16	static
+../src/hw/driver/beacon.c:118:6:cliBeacon	48	static

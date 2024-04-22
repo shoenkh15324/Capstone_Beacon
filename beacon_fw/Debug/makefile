@@ -66,7 +66,7 @@ main-build: beacon_fw.elf secondary-outputs
 
 # Tool invocations
 beacon_fw.elf beacon_fw.map: $(OBJS) $(USER_OBJS) C:\Users\mok07\Desktop\Study\Capstone\beacon\beacon_fw\src\bsp\ldscript\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "beacon_fw.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\mok07\Desktop\Study\Capstone\beacon\beacon_fw\src\bsp\ldscript\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="beacon_fw.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "beacon_fw.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\mok07\Desktop\Study\Capstone\beacon\beacon_fw\src\bsp\ldscript\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="beacon_fw.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
