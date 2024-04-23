@@ -10,6 +10,7 @@
 #include "uart.h"
 #include "cli.h"
 #include "button.h"
+#include "dht22.h"
 
 
 #ifdef _USE_HW_BEACON
@@ -22,6 +23,7 @@ typedef struct
   uint8_t y;              // 비콘의 y 좌표를 나타내는 변수
   uint8_t z;              // 비콘의 z 좌표를 나타내는 변수
 
+  bool beacon_en;         // 비콘이 사용 가능 여부를 나타내는 변수
   uint32_t beacon_id;     // 비콘의 고유 ID를 나타내는 변수
   uint8_t ch;             // 비콘의 통신 채널을 나타내는 변수
   uint32_t baud;          // 비콘의 통신 속도를 나타내는 변수
@@ -30,7 +32,14 @@ typedef struct
 
 } beacon_t;
 
+typedef struct
+{
+  float temp;             // 비콘 주변의 온도를 나타내는 변수
+  float humid;            // 비콘 주변의 습도를 나타내는 변수
+} data_t;
+
 beacon_t beacon_tbl;      // 비콘 정보를 담는 구조체 변수
+data_t data_tbl;          // 추가적인 데이터를 담는 구조체 변수
 
 #ifdef _USE_HW_CLI
 static void cliBeacon(cli_args_t *args);
@@ -52,6 +61,8 @@ bool beaconInit()
   beacon_tbl.x = 0;                     // x 좌표 초기화
   beacon_tbl.y = 0;                     // y 좌표 초기화
   beacon_tbl.z = 0;                     // z 좌표 초기화
+
+  beacon_tbl.beacon_en = true;
   beacon_tbl.ch = _DEF_UART3;           // 통신 채널 초기화
   beacon_tbl.baud = 9600;               // 통신 속도 초기화
   beacon_tbl.beacon_started = false;    // 비콘 시작 여부 초기화
@@ -79,15 +90,19 @@ bool beaconInit()
  */
 void handleBeaconStart(void)
 {
+  IsBeaconEnable();
+
   if(beacon_tbl.beacon_started)  // 비콘이 시작되었는지 확인
   {
     // UART를 통해 비콘 정보를 출력합니다.
-    uartPrintf(beacon_tbl.ch, "%d %d %d %d %d\n", beacon_tbl.beacon_id,
-                                                  beacon_tbl.floor,
-                                                  beacon_tbl.x,
-                                                  beacon_tbl.y,
-                                                  beacon_tbl.z
-                                                  );
+    uartPrintf(beacon_tbl.ch, "%d %d %d %d %d %d\n",
+               beacon_tbl.beacon_en,
+               beacon_tbl.beacon_id,
+               beacon_tbl.floor,
+               beacon_tbl.x,
+               beacon_tbl.y,
+               beacon_tbl.z
+               );
   }
 }
 
@@ -106,7 +121,24 @@ void changeBeaconStarted(bool value)
     beacon_tbl.beacon_started = false;  // 그렇지 않으면 중지 상태로 설정
 }
 
+static void getTempAndHumid(void)
+{
+  DHT22_GetTemp_Humidity(&data_tbl.temp, &data_tbl.humid);
+}
 
+/*
+ * 비콘이 활성화되어 있는지 확인합니다.
+ */
+void IsBeaconEnable(void)
+{
+  getTempAndHumid(); // 온도와 습도 데이터를 가져옵니다.
+
+  // 온도가 50도 이상인지 확인합니다.
+  if(data_tbl.temp >= 50.0)
+  {
+    beacon_tbl.beacon_en = false; // 비콘을 비활성화합니다.
+  }
+}
 
 #ifdef _USE_HW_CLI
 
@@ -122,19 +154,27 @@ void cliBeacon(cli_args_t *args)
   // "info" 명령어를 받았을 때 비콘 정보 출력
   if(args->argc == 1 && args->isStr(0, "info") == true)
   {
+    bool beacon_en = beacon_tbl.beacon_en;  // 비콘 Enable 정보
     uint32_t beacon_id = beacon_tbl.beacon_id;  // 비콘 ID 정보
     uint8_t beacon_floor = beacon_tbl.floor;    // 비콘 층 정보
     uint8_t beacon_x = beacon_tbl.x;            // 비콘 x 좌표 정보
     uint8_t beacon_y = beacon_tbl.y;            // 비콘 y 좌표 정보
     uint8_t beacon_z = beacon_tbl.z;            // 비콘 z 좌표 정보
 
+    float temp = data_tbl.temp;
+    float humid = data_tbl.humid;
+
     // 비콘 정보 출력
-    cliPrintf("ID: %d, Floor: %d, [x, y, z]: [%d, %d, %d]\n", beacon_id,
-                                                              beacon_floor,
-                                                              beacon_x,
-                                                              beacon_y,
-                                                              beacon_z
-                                                              );
+    cliPrintf("En: %d, ID: %d, Floor: %d, [x, y, z]: [%d, %d, %d], Temp: %.2f, Humid: %.2f\n",
+              beacon_en,
+              beacon_id,
+              beacon_floor,
+              beacon_x,
+              beacon_y,
+              beacon_z,
+              temp,
+              humid
+              );
 
     ret = true;  // 처리 성공
   }

@@ -9,11 +9,6 @@
 #include "ap.h"
 
 
-bool power_switch = false;
-
-float TempC, Humidity;
-char uartData[50];
-
 void StopMode(void);
 
 
@@ -40,21 +35,10 @@ void apMain(void)
 
       handleBeaconStart();
 
-      //StopMode();
+      StopMode();
     }
 
-//    if(DHT22_GetTemp_Humidity(&TempC, &Humidity) == 1)
-//    {
-//      uartPrintf(_DEF_UART2, "\r\nTemp (C) =\t %.1f\r\nHumidity (%%) =\t %.1f%%\r\n", TempC, Humidity);
-//    }
-//    else
-//    {
-//      uartPrintf(_DEF_UART2, "\r\nCRC Error!\r\n");
-//    }
-//
-//    HAL_Delay(1000);
-
-    cliMain();
+    //cliMain();
   }
 }
 

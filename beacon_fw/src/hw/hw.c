@@ -11,7 +11,7 @@
 void hwInit(void)
 {
 //  iwdgInit();
-//  iwdgBegin(1250); // 500.8ms
+//  iwdgBegin(313); // 500.8ms
 
   bspInit();
   cliInit();

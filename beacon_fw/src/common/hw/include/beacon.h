@@ -14,5 +14,6 @@
 bool beaconInit(void);
 void handleBeaconStart(void);
 void changeBeaconStarted(bool value);
+void IsBeaconEnable(void);
 
 #endif /* SRC_COMMON_HW_INCLUDE_BEACON_H_ */

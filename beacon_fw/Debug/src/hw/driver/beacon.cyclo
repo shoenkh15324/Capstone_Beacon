@@ -1,4 +1,6 @@
-../src/hw/driver/beacon.c:46:6:beaconInit	1
-../src/hw/driver/beacon.c:80:6:handleBeaconStart	2
-../src/hw/driver/beacon.c:101:6:changeBeaconStarted	2
-../src/hw/driver/beacon.c:118:6:cliBeacon	11
+../src/hw/driver/beacon.c:55:6:beaconInit	1
+../src/hw/driver/beacon.c:91:6:handleBeaconStart	2
+../src/hw/driver/beacon.c:116:6:changeBeaconStarted	2
+../src/hw/driver/beacon.c:124:13:getTempAndHumid	1
+../src/hw/driver/beacon.c:132:6:IsBeaconEnable	2
+../src/hw/driver/beacon.c:150:6:cliBeacon	11

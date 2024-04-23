@@ -1,8 +1,8 @@
-../src/hw/driver/dht22.c:33:6:dht22Init	3
-../src/hw/driver/dht22.c:57:6:ONE_WIRE_PinMode	3
-../src/hw/driver/dht22.c:80:6:ONE_WIRE_Pin_Write	2
-../src/hw/driver/dht22.c:86:6:ONE_WIRE_Pin_Read	1
-../src/hw/driver/dht22.c:92:6:DHT22_StartAcquisition	1
-../src/hw/driver/dht22.c:109:6:DHT22_ReadRaw	11
-../src/hw/driver/dht22.c:148:6:DHT22_GetTemp_Humidity	3
-../src/hw/driver/dht22.c:179:6:cliDHT22	6
+../src/hw/driver/dht22.c:35:6:dht22Init	3
+../src/hw/driver/dht22.c:59:6:ONE_WIRE_PinMode	3
+../src/hw/driver/dht22.c:82:6:ONE_WIRE_Pin_Write	2
+../src/hw/driver/dht22.c:88:6:ONE_WIRE_Pin_Read	1
+../src/hw/driver/dht22.c:94:6:DHT22_StartAcquisition	1
+../src/hw/driver/dht22.c:111:6:DHT22_ReadRaw	11
+../src/hw/driver/dht22.c:150:6:DHT22_GetTemp_Humidity	3
+../src/hw/driver/dht22.c:181:6:cliDHT22	6
