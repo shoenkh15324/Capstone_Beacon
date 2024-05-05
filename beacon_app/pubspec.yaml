@@ -30,8 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_blue: ^0.8.0
-
+  flutter_blue_plus: ^1.32.4
+  permission_handler: ^11.3.1
+  bottom_bar: ^2.0.1
+  get: ^4.6.6
+  rolling_switch: ^0.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -53,8 +56,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  assets:
-    - assets/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
