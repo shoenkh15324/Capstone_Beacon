@@ -1,33 +1,124 @@
-import 'package:beacon_app/bluetooth/bluetooth_data.dart';
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'package:beacon_app/beacon_data/beacon_data.dart';
+import 'package:beacon_app/bluetooth_data/ble_data.dart';
 import 'package:beacon_app/pages/beacon_page.dart';
 import 'package:beacon_app/pages/indoor_map_page.dart';
 import 'package:beacon_app/pages/scan_page.dart';
-import 'package:bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key}); // 생성자에서 key를 받아옵니다
+  const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState(); // 상태 객체를 생성합니다.
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final bleController = Get.put(BLEController());
-  int _selectedScreen = 0;
+  final beaconController = Get.put(BeaconData());
   final PageController _pageController = PageController(initialPage: 0);
 
-  void pageChange(int index) {
-    _selectedScreen = index;
-    setState(() {});
+  final TextEditingController addNicknameController = TextEditingController();
+  final TextEditingController addIDController = TextEditingController();
+  final TextEditingController addMACController = TextEditingController();
+
+  int _selectedScreen = 0;
+
+  String tempNickname = 'Nickname', tempID = 'ID', tempMAC = 'MAC';
+  int tempFloor = 0, tempX = 0, tempY = 0, tempZ = 0;
+
+  @override
+  void dispose() {
+    addNicknameController.dispose();
+    addIDController.dispose();
+    addMACController.dispose();
+    super.dispose();
   }
 
-// Flutter 앱의 화면을 구성하는 위젯입니다.
+  void pageChange(int index) {
+    if (_selectedScreen != index) {
+      setState(() {
+        _selectedScreen = index;
+      });
+    }
+  }
+
+  void addButtonPressed(BuildContext context) {
+    List<dynamic> newDevice = [
+      tempMAC,
+      tempID,
+      tempFloor,
+      tempX,
+      tempY,
+      tempZ,
+      tempNickname,
+    ];
+    print(newDevice);
+    beaconController.beaconDataList.add(newDevice);
+    print(beaconController.beaconDataList.value);
+    Navigator.pop(context);
+  }
+
+  Widget addDeviceDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Add Device',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
+      scrollable: true,
+      actions: [
+        TextField(
+          controller: addNicknameController,
+          decoration: const InputDecoration(label: Text('Nickname')),
+          onChanged: (value) => tempNickname,
+        ),
+        TextField(
+          controller: addIDController,
+          decoration: const InputDecoration(label: Text('ID')),
+          onChanged: (value) => tempID,
+        ),
+        TextField(
+          controller: addMACController,
+          decoration: const InputDecoration(label: Text('MAC Address')),
+          onChanged: (value) => tempMAC,
+        ),
+        const SizedBox(height: 30),
+        SpinBox(
+          min: -100,
+          max: 100,
+          value: 0,
+          decimals: 0,
+          step: 1,
+          onChanged: (value) => setState(() {
+            tempFloor = value.toInt();
+          }),
+          decoration: const InputDecoration(
+              label: Text(
+                'Floor',
+                style: TextStyle(fontSize: 22),
+              ),
+              border: OutlineInputBorder(borderSide: BorderSide.none)),
+        ),
+        TextButton(
+          onPressed: () => addButtonPressed(context),
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStatePropertyAll(Colors.deepPurple.shade100),
+            fixedSize: const MaterialStatePropertyAll(Size(80, 50)),
+          ),
+          child: const Text(
+            'Add',
+            style: TextStyle(color: Colors.black, fontSize: 16),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 앱 상단의 앱 바를 구성합니다.
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.blue,
@@ -45,7 +136,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Obx(
             () => IconButton(
               icon: Icon(
-                  bleController.isScanning.value ? Icons.stop : Icons.search),
+                bleController.isScanning.value ? Icons.stop : Icons.search,
+              ),
               iconSize: 30,
               color: Colors.white,
               onPressed: () {
@@ -55,10 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      // 앱의 본문을 구성합니다.
       body: PageView(
         controller: _pageController,
-        physics: const PageScrollPhysics(),
         onPageChanged: pageChange,
         children: const [
           ScanPage(),
@@ -66,39 +156,39 @@ class _HomeScreenState extends State<HomeScreen> {
           IndoorMapPage(),
         ],
       ),
-      bottomNavigationBar: BottomBar(
-        items: const <BottomBarItem>[
-          BottomBarItem(
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
             icon: Icon(Icons.bluetooth),
-            title: Text("BLE Scan"),
-            activeColor: Colors.white,
-            activeTitleColor: Colors.white,
-            inactiveColor: Colors.white,
+            label: "BLE Scan",
           ),
-          BottomBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings_input_antenna),
-            title: Text("Beacon"),
-            activeColor: Colors.white,
-            activeTitleColor: Colors.white,
-            inactiveColor: Colors.white,
+            label: "Beacon",
           ),
-          BottomBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            title: Text("IndoorMap"),
-            activeColor: Colors.white,
-            activeTitleColor: Colors.white,
-            inactiveColor: Colors.white,
+            label: "IndoorMap",
           ),
         ],
-        textStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        currentIndex: _selectedScreen,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
         backgroundColor: Colors.blue,
-        selectedIndex: _selectedScreen,
         onTap: (int index) {
           _pageController.jumpToPage(index);
-          setState(() => _selectedScreen = index);
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return addDeviceDialog(context);
+            },
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

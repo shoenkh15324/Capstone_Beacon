@@ -38,10 +38,12 @@ class BleWidgets {
   // bleIcon은 Bluetooth 기기를 나타내는 아이콘을 표시합니다.
   Widget bleIcon() {
     return const CircleAvatar(
-      backgroundColor: Colors.cyan, // 아이콘 배경색을 설정합니다.
+      backgroundColor: Colors.cyan,
+      radius: 25, // 아이콘 배경색을 설정합니다.
       child: Icon(
-        Icons.bluetooth, // Bluetooth 아이콘을 설정합니다.
-        color: Colors.white, // 아이콘 색상을 설정합니다.
+        Icons.bluetooth,
+        color: Colors.white,
+        size: 30,
       ),
     );
   }
