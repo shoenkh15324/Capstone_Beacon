@@ -1,7 +1,8 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:beacon_app/beacon_data/beacon_data.dart';
-import 'package:beacon_app/bluetooth_data/ble_data.dart';
+import 'package:beacon_app/data_folder/ble_data.dart';
+import 'package:beacon_app/data_folder/beacon_data.dart';
+import 'package:beacon_app/data_folder/database_control.dart';
 import 'package:beacon_app/widgets/bluetooth_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -24,10 +25,41 @@ class ScanPage extends StatefulWidget {
 }
 
 class _ScanPageState extends State<ScanPage> {
-  final bleController = Get.put(BLEController());
-  final beaconController = Get.put(BeaconData());
+  final bleController = Get.put(BleController());
+  final beaconController = Get.put(BeaconController());
+
   TextEditingController beaconIdController = TextEditingController();
   TextEditingController beaconNicknameController = TextEditingController();
+
+  String tempNickname = 'Nickname', tempID = 'ID';
+  int tempFloor = 0, tempX = 0, tempY = 0, tempZ = 0;
+
+  @override
+  void dispose() {
+    beaconNicknameController.dispose();
+    beaconIdController.dispose();
+    super.dispose();
+  }
+
+  void settingButtonPressed(BuildContext context, String mac) {
+    DatabaseHelper dhHelper = DatabaseHelper.instance;
+
+    int index = beaconController.findMACIndex(mac);
+    if (index != -1) {
+      var temp = beaconController.beaconDataList.value[index];
+      temp[1] = tempID;
+      temp[2] = tempFloor;
+      temp[3] = tempX;
+      temp[4] = tempY;
+      temp[5] = tempZ;
+      temp[6] = tempNickname;
+
+      // Update Database
+      beaconController.beaconDataListUpdated();
+    }
+
+    Navigator.pop(context);
+  }
 
   // 비콘 리스트
   Widget widgetBleList(ScanResult r, int index) {
@@ -37,8 +69,7 @@ class _ScanPageState extends State<ScanPage> {
 
     return ExpansionTile(
       title: Text(
-        beaconController
-            .beaconDataList.value[beaconController.findMACIndex(deviceMAC)][6],
+        beaconController.printBeaconNickname(deviceMAC),
         style: const TextStyle(
           fontWeight: FontWeight.w500,
           fontSize: 17,
@@ -83,7 +114,8 @@ class _ScanPageState extends State<ScanPage> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return beaconSettingDialog(context, deviceMAC);
+                    return SingleChildScrollView(
+                        child: beaconSettingDialog(context, deviceMAC));
                   },
                 );
               },
@@ -109,22 +141,21 @@ class _ScanPageState extends State<ScanPage> {
       actions: [
         TextField(
           controller: beaconNicknameController,
-          decoration: const InputDecoration(
-            labelText: 'Nickname',
-          ),
-          onEditingComplete: () {
-            beaconController.settingBeaconNickname(
-                mac, beaconNicknameController.text);
+          onChanged: (value) {
+            tempNickname = beaconNicknameController.text;
           },
+          decoration: InputDecoration(
+              labelText: 'Nickname',
+              labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
         ),
         TextField(
           controller: beaconIdController,
-          decoration: const InputDecoration(
-            labelText: 'ID',
-          ),
-          onEditingComplete: () {
-            beaconController.settingBeaconID(mac, beaconIdController.text);
+          onChanged: (value) {
+            tempID = beaconIdController.text;
           },
+          decoration: const InputDecoration(
+              labelText: 'ID',
+              labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
         ),
         const SizedBox(
           height: 30,
@@ -132,16 +163,17 @@ class _ScanPageState extends State<ScanPage> {
         SpinBox(
           min: -100,
           max: 100,
-          value: BeaconData().beaconDataList[BeaconData().findMACIndex(mac)][1],
+          value: beaconController.printBeaconFloor(mac).toDouble(),
           decimals: 0,
           step: 1,
-          onChanged: (value) =>
-              beaconController.settingBeaconFloor(mac, value.toInt()),
+          onChanged: (value) {
+            tempFloor = value.toInt();
+          },
           decoration: const InputDecoration(
             label: Text(
               'Floor',
               style: TextStyle(
-                fontSize: 21,
+                fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -152,16 +184,17 @@ class _ScanPageState extends State<ScanPage> {
           // x-axis
           min: -100,
           max: 100,
-          value: 0,
+          value: beaconController.printBeaconXaxis(mac).toDouble(),
           decimals: 0,
           step: 1,
-          onChanged: (value) =>
-              beaconController.settingBeaconXaxis(mac, value.toInt()),
+          onChanged: (value) {
+            tempX = value.toInt();
+          },
           decoration: const InputDecoration(
             label: Text(
               'X-axis',
               style: TextStyle(
-                fontSize: 21,
+                fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -172,16 +205,17 @@ class _ScanPageState extends State<ScanPage> {
           // y-axis
           min: -100,
           max: 100,
-          value: 0,
+          value: beaconController.printBeaconYaxis(mac).toDouble(),
           decimals: 0,
           step: 1,
-          onChanged: (value) =>
-              beaconController.settingBeaconYaxis(mac, value.toInt()),
+          onChanged: (value) {
+            tempY = value.toInt();
+          },
           decoration: const InputDecoration(
             label: Text(
               'Y-axis',
               style: TextStyle(
-                fontSize: 21,
+                fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -192,20 +226,33 @@ class _ScanPageState extends State<ScanPage> {
           // z-axis
           min: -100,
           max: 100,
-          value: 0,
+          value: beaconController.printBeaconZaxis(mac).toDouble(),
           decimals: 0,
           step: 1,
-          onChanged: (value) =>
-              beaconController.settingBeaconZaxis(mac, value.toInt()),
+          onChanged: (value) {
+            tempZ = value.toInt();
+          },
           decoration: const InputDecoration(
             label: Text(
               'Z-axis',
               style: TextStyle(
-                fontSize: 21,
+                fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
             border: OutlineInputBorder(borderSide: BorderSide.none),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            settingButtonPressed(context, mac);
+          },
+          style: const ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+          child: const Text(
+            'Setting',
+            style: TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
           ),
         ),
       ],
