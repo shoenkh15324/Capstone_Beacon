@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
+  // Flutter 앱을 실행하기 전, 필요한 바인딩을 초기화.
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 앱을 초기화.
   initializeApp();
+
+// MyApp을 실행합니다.
   runApp(const MyApp());
 }
 
@@ -23,13 +28,15 @@ class MyApp extends StatelessWidget {
 }
 
 void initializeApp() async {
-  // 데이터베이스 헬퍼 클래스의 인스턴스 생성
+  // 데이터베이스 헬퍼 클래스의 인스턴스 생성.
   DatabaseHelper dbHelper = DatabaseHelper.instance;
+
+  // BeaconController를 사용할 수 있도록 GetX에 등록.
   final beaconController = Get.put(BeaconController());
-  // 데이터베이스 초기화
+
+  // 데이터베이스 초기화.
   await dbHelper.database;
 
-  // 데이터베이스에서 데이터를 불러와서 beaconDataList를 업데이트
+  // 데이터베이스에서 데이터를 불러와서 beaconDataList를 업데이트.
   await beaconController.updateBeaconDataListFromDatabase();
-  print(beaconController.beaconDataList);
 }
