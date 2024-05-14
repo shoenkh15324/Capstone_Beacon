@@ -4,6 +4,34 @@ import 'package:beacon_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/*
+    ** 소스 코드로 BLE 기기 등록하는 방법 **
+
+    1. beacon_data.dart 파일의 beaconDataList에 BLE 기기 정보 추가.
+
+    2. BLE_data.dart 파일의 beaconList에 BLE 기기의 MAC 주소 추가.
+
+    3. main.dart 파일의 initializeApp 함수에서   
+          await beaconController.updateBeaconDataListFromDatabase();
+       를 주석 처리.
+
+    4. main.dart 파일의 initializeApp 함수에서 
+          dbHelper.clearBeaconData();
+          beaconController.updateDatabaseListFromBeaconDataList();
+       위 두 코드의 주석 제거.
+
+    5. 디버깅 다시 시작.
+
+    6. main.dart 파일의 initializeApp 함수에서   
+          await beaconController.updateBeaconDataListFromDatabase();
+       의 주석을 제거.
+
+    7. main.dart 파일의 initializeApp 함수에서 
+          dbHelper.clearBeaconData();
+          beaconController.updateDatabaseListFromBeaconDataList();
+       위 두 코드의 주석 추가.
+*/
+
 void main() {
   // Flutter 앱을 실행하기 전, 필요한 바인딩을 초기화.
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +69,6 @@ void initializeApp() async {
   await beaconController.updateBeaconDataListFromDatabase();
 
   // beaconDataList를 데이터베스에 업데이트(소스 코드로 기기 등록시 필요)
-  // dbHelper.clearBeaconData();
-  // beaconController.updateDatabaseListFromBeaconDataList();
+  //dbHelper.clearBeaconData();
+  //beaconController.updateDatabaseListFromBeaconDataList();
 }

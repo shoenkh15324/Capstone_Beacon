@@ -117,10 +117,10 @@ class _ScanPageState extends State<ScanPage> {
         ),
       ),
       leading: BleWidgets().bleIcon(),
-      // 기기 이름 표시.
+      // 기기 ID 표시.
       subtitle: Obx(
         () => Text(
-          bleController.getPlatformName(deviceMAC),
+          beaconController.printBeaconID(deviceMAC),
           style: const TextStyle(
             fontSize: 15,
           ),
@@ -146,8 +146,8 @@ class _ScanPageState extends State<ScanPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ID 표시.
-                  Text('ID: ${beaconController.printBeaconID(deviceMAC)}'),
+                  // 기기 이름 표시.
+                  Text('NAME: ${bleController.getPlatformName(deviceMAC)}'),
                   // MAC 표시.
                   Text('MAC: $deviceMAC'),
                   // 층 정보 표시.
@@ -246,8 +246,8 @@ class _ScanPageState extends State<ScanPage> {
         ),
         // X좌표를 입력받는 위젯.
         SpinBox(
-          min: -100,
-          max: 100,
+          min: 0,
+          max: 1001,
           value: beaconController.printBeaconXaxis(mac).toDouble(),
           decimals: 0,
           step: 1,
@@ -267,8 +267,8 @@ class _ScanPageState extends State<ScanPage> {
         ),
         // Y좌표를 입력받는 위젯.
         SpinBox(
-          min: -100,
-          max: 100,
+          min: 0,
+          max: 701,
           value: beaconController.printBeaconYaxis(mac).toDouble(),
           decimals: 0,
           step: 1,

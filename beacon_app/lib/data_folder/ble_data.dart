@@ -42,6 +42,12 @@ class BleController extends GetxController {
   // BLE 기기 스캔 결과
   final scanResultList = RxList<ScanResult>([]);
 
+  BleController() {
+    rssiList.listen((_) {
+      print(rssiList);
+    });
+  }
+
   // 스캔 상태 플래그
   final isScanning = RxBool(false);
 
@@ -52,8 +58,16 @@ class BleController extends GetxController {
   final platformNameList = RxList<Map<String, String>>([]);
 
   /* 스캔할 기기의 MAC 주소 리스트 */
-  RxList<String> beaconList = RxList<String>(
-      ['C8:0F:10:B3:5D:D5', '54:44:A3:EB:E7:E1', '68:27:37:AE:EF:19']);
+  RxList<String> beaconList = RxList<String>([
+    'C8:0F:10:B3:5D:D5', // TEST1
+    '54:44:A3:EB:E7:E1', // TEST2
+    '68:27:37:AE:EF:19', // TEST3
+    'C4:F3:12:51:AE:21', // BEACON1
+    'BC:6A:29:C3:44:E2', // BEACON2
+    '34:15:13:88:8A:60', // BEACON3
+    'D4:36:39:6F:BA:D5', // BEACON4
+    'F8:30:02:4A:E4:5F', // BEACON5
+  ]);
 
   // 사용이 끝난 리소스 해제
   @override
@@ -76,11 +90,10 @@ class BleController extends GetxController {
   }
 
   // BLE 장치 스캔을 시작하는 함수
-  void startScan() async {
+  Future<void> startScan() async {
     _scanSubscription = FlutterBluePlus.scanResults.listen((event) {
       updateLists(event); // 스캔 결과를 여러 리스트에 업데이트
       scanResultList.sort((a, b) => b.rssi.compareTo(a.rssi)); // RSSI에 따라 정렬
-      print(rssiList);
     });
 
     // 초기 스캔 시작
@@ -112,39 +125,36 @@ class BleController extends GetxController {
   }
 
   // 스캔 결과를 업데이트하는 함수
-  void updateLists(List<ScanResult> results) {
+  Future<void> updateLists(List<ScanResult> results) async {
     for (var result in results) {
       final macAddress = result.device.remoteId.toString();
       final rssi = result.rssi;
       final platformName = result.device.platformName;
 
-      // 해당 mac 주소가 이미 리스트에 있는지 확인
-      int rssiIndex =
-          rssiList.indexWhere((item) => item["macAddress"] == macAddress);
-      int platformIndex = platformNameList
-          .indexWhere((item) => item["macAddress"] == macAddress);
+      // RSSI 업데이트
+      updateListEntry(
+          rssiList, macAddress, {"macAddress": macAddress, "rssi": rssi});
 
-      // 만약 이미 리스트에 있다면 값을 업데이트, 없다면 새로 추가
-      if (rssiIndex != -1) {
-        rssiList[rssiIndex] = {"macAddress": macAddress, "rssi": rssi};
-      } else {
-        rssiList.add({"macAddress": macAddress, "rssi": rssi});
-      }
-
-      if (platformIndex != -1) {
-        platformNameList[platformIndex] = {
-          "macAddress": macAddress,
-          "platformName": platformName
-        };
-      } else {
-        platformNameList
-            .add({"macAddress": macAddress, "platformName": platformName});
-      }
+      // Platform 이름 업데이트
+      updateListEntry(platformNameList, macAddress,
+          {"macAddress": macAddress, "platformName": platformName});
     }
+
     rssiList.sort((a, b) => b['rssi'].compareTo(a['rssi']));
   }
 
-  // beaconList를 업데이트하는 함수수
+  // 리스트 업데이트를 처리하는 보조 메서드
+  void updateListEntry(RxList<Map<String, dynamic>> list, String macAddress,
+      Map<String, dynamic> newValue) {
+    final index = list.indexWhere((item) => item["macAddress"] == macAddress);
+    if (index != -1) {
+      list[index] = newValue;
+    } else {
+      list.add(newValue);
+    }
+  }
+
+  // beaconList를 업데이트하는 함수
   void updateBeaconList() {
     final beaconController = Get.put(BeaconController());
     RxList<String> tempList = RxList<String>([]);
