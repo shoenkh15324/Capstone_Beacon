@@ -35,13 +35,15 @@ class BeaconController extends GetxController {
   /* 등록된 기기 정보 리스트 */
   RxList<RxList<dynamic>> beaconDataList = RxList<RxList<dynamic>>([
     //                       MAC           ID   F  X  Y  Z   Nickname
-    RxList<dynamic>(['C8:0F:10:B3:5D:D5', 'ID', 0, 0, 0, 0, 'Nickname']),
+    RxList<dynamic>(['C8:0F:10:B3:5D:D5', 'ID', 6, 100, 200, 0, 'Test1']),
+    RxList<dynamic>(['54:44:A3:EB:E7:E1', 'ID', 6, 300, 300, 0, 'Test2']),
+    RxList<dynamic>(['E0:9D:13:86:A9:63', 'ID', 6, 600, 400, 0, 'Test3']),
   ]);
 
   // beaconDataList가 업데이트 되는지 감지.
   BeaconController() {
     beaconDataList.listen((_) {
-      beaconDataListUpdated();
+      updateDatabaseListFromBeaconDataList();
     });
   }
 
@@ -68,7 +70,7 @@ class BeaconController extends GetxController {
   }
 
   // beaconDataList에 있는 값들을 데이터베이스에 갱신하는 함수
-  void beaconDataListUpdated() {
+  void updateDatabaseListFromBeaconDataList() {
     // 데이터베이스 인스턴스 생성
     DatabaseHelper dhHelper = DatabaseHelper.instance;
 

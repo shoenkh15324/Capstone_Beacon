@@ -73,7 +73,7 @@ class _ScanPageState extends State<ScanPage> {
     );
 
     // 데이터베이스에 업데이트.
-    beaconController.beaconDataListUpdated();
+    beaconController.updateDatabaseListFromBeaconDataList();
 
     // 상태 업데이트.
     setState(() {});

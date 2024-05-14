@@ -52,9 +52,8 @@ class BleController extends GetxController {
   final platformNameList = RxList<Map<String, String>>([]);
 
   /* 스캔할 기기의 MAC 주소 리스트 */
-  RxList<String> beaconList = RxList<String>([
-    'C8:0F:10:B3:5D:D5',
-  ]);
+  RxList<String> beaconList = RxList<String>(
+      ['C8:0F:10:B3:5D:D5', '54:44:A3:EB:E7:E1', '68:27:37:AE:EF:19']);
 
   // 사용이 끝난 리소스 해제
   @override
@@ -81,6 +80,7 @@ class BleController extends GetxController {
     _scanSubscription = FlutterBluePlus.scanResults.listen((event) {
       updateLists(event); // 스캔 결과를 여러 리스트에 업데이트
       scanResultList.sort((a, b) => b.rssi.compareTo(a.rssi)); // RSSI에 따라 정렬
+      print(rssiList);
     });
 
     // 초기 스캔 시작
@@ -130,6 +130,7 @@ class BleController extends GetxController {
       } else {
         rssiList.add({"macAddress": macAddress, "rssi": rssi});
       }
+
       if (platformIndex != -1) {
         platformNameList[platformIndex] = {
           "macAddress": macAddress,
@@ -140,6 +141,7 @@ class BleController extends GetxController {
             .add({"macAddress": macAddress, "platformName": platformName});
       }
     }
+    rssiList.sort((a, b) => b['rssi'].compareTo(a['rssi']));
   }
 
   // beaconList를 업데이트하는 함수수
