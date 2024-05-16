@@ -66,9 +66,9 @@ void initializeApp() async {
   await dbHelper.database;
 
   // 데이터베이스에서 데이터를 불러와서 beaconDataList를 업데이트.
-  await beaconController.updateBeaconDataListFromDatabase();
+  //await beaconController.updateBeaconDataListFromDatabase();
 
   // beaconDataList를 데이터베스에 업데이트(소스 코드로 기기 등록시 필요)
-  //dbHelper.clearBeaconData();
-  //beaconController.updateDatabaseListFromBeaconDataList();
+  dbHelper.clearBeaconData();
+  beaconController.updateDatabaseListFromBeaconDataList();
 }

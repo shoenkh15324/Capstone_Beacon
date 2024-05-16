@@ -15,15 +15,24 @@ class IndoorMapPageState extends State<IndoorMapPage> {
   final beaconController = Get.put(BeaconController());
 
   int maxDevice = 3;
+  Worker? rssiListListener;
 
   @override
   void initState() {
     super.initState();
 
     // rssiList가 업데이트될 때마다 화면을 다시 그리도록 함
-    ever(bleController.rssiList, (_) {
-      setState(() {});
+    rssiListListener = ever(bleController.rssiList, (_) {
+      if (mounted) {
+        setState(() {});
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    rssiListListener?.dispose();
+    super.dispose();
   }
 
   @override
