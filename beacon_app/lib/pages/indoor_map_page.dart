@@ -1,3 +1,7 @@
+import 'dart:math';
+import 'dart:ui';
+
+import 'package:beacon_app/calculation/triangulation.dart';
 import 'package:beacon_app/data_folder/beacon_data.dart';
 import 'package:beacon_app/data_folder/ble_data.dart';
 import 'package:flutter/material.dart';
@@ -83,13 +87,23 @@ class BeaconCircle extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // 여기에 원 그리기 로직 구현
-    final circle = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = 2
+    if (x == null || y == null || rssi == null) return;
+
+    final double radius = 10 * pow(10, (-60 - rssi!) / (10 * 2)).toDouble();
+    final Offset center = Offset(x!.toDouble(), y!.toDouble());
+
+    final pointPaint = Paint()
+      ..color = Colors.blue.withOpacity(0.8)
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 5;
+
+    final circlePaint = Paint()
+      ..color = Colors.blue.withOpacity(0.6)
+      ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
 
-    canvas.drawCircle(Offset(x!.toDouble(), y!.toDouble()), 100, circle);
+    canvas.drawCircle(center, radius, circlePaint);
+    canvas.drawPoints(PointMode.points, [center], pointPaint);
   }
 
   @override

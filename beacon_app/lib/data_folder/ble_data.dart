@@ -44,7 +44,7 @@ class BleController extends GetxController {
 
   BleController() {
     rssiList.listen((_) {
-      print(rssiList);
+      print(txPowerList);
     });
   }
 
@@ -57,16 +57,19 @@ class BleController extends GetxController {
   // 기기명 목록
   final platformNameList = RxList<Map<String, String>>([]);
 
+  // TxPower 값 목록
+  final txPowerList = RxList<Map<String, dynamic>>([]);
+
   /* 스캔할 기기의 MAC 주소 리스트 */
   RxList<String> beaconList = RxList<String>([
     'C8:0F:10:B3:5D:D5', // TEST1
     '54:44:A3:EB:E7:E1', // TEST2
     'E0:9D:13:86:A9:63', // TEST3
-    // 'C4:F3:12:51:AE:21', // BEACON1
-    // 'BC:6A:29:C3:44:E2', // BEACON2
-    // '34:15:13:88:8A:60', // BEACON3
-    // 'D4:36:39:6F:BA:D5', // BEACON4
-    // 'F8:30:02:4A:E4:5F', // BEACON5
+    'C4:F3:12:51:AE:21', // BEACON1
+    'BC:6A:29:C3:44:E2', // BEACON2
+    '34:15:13:88:8A:60', // BEACON3
+    'D4:36:39:6F:BA:D5', // BEACON4
+    'F8:30:02:4A:E4:5F', // BEACON5
   ]);
 
   // 사용이 끝난 리소스 해제
@@ -143,6 +146,7 @@ class BleController extends GetxController {
         final macAddress = result.device.remoteId.toString();
         final rssi = result.rssi;
         final platformName = result.device.platformName;
+        final txPower = result.advertisementData.txPowerLevel;
 
         // RSSI 업데이트 (Map<String, dynamic>)
         _updateListEntry(
@@ -151,6 +155,10 @@ class BleController extends GetxController {
         // Platform 이름 업데이트 (Map<String, String>)
         _updatePlatformNameListEntry(platformNameList, macAddress,
             {"macAddress": macAddress, "platformName": platformName});
+
+        // TxPower 업데이트 (Map<String, dynamic>)
+        _updateListEntry(txPowerList, macAddress,
+            {"macAddress": macAddress, "txpower": txPower});
       }
 
       rssiList.sort((a, b) => b['rssi'].compareTo(a['rssi']));
