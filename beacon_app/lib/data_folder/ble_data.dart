@@ -39,26 +39,12 @@ class BleController extends GetxController {
   // BLE 스캔 결과를 구독하는 Subscription
   StreamSubscription<List<ScanResult>>? _scanSubscription;
 
-  // BLE 기기 스캔 결과
-  final scanResultList = RxList<ScanResult>([]);
-
-  BleController() {
-    rssiList.listen((_) {
-      print(txPowerList);
-    });
-  }
-
-  // 스캔 상태 플래그
-  final isScanning = RxBool(false);
-
-  // RSSI 값 목록
-  final rssiList = RxList<Map<String, dynamic>>([]);
-
-  // 기기명 목록
-  final platformNameList = RxList<Map<String, String>>([]);
-
-  // TxPower 값 목록
-  final txPowerList = RxList<Map<String, dynamic>>([]);
+  final isScanning = RxBool(false); // 스캔 상태 플래그
+  final scanResultList = RxList<ScanResult>([]); // BLE 기기 스캔 결과
+  final rssiList = RxList<Map<String, dynamic>>([]); // RSSI 값 목록
+  final platformNameList = RxList<Map<String, String>>([]); // 기기명 목록
+  final txPowerList = RxList<Map<String, dynamic>>([]); // TxPower 값 목록
+  int timeout = 5;
 
   /* 스캔할 기기의 MAC 주소 리스트 */
   RxList<String> beaconList = RxList<String>([
@@ -95,6 +81,7 @@ class BleController extends GetxController {
   // BLE 장치 스캔을 시작하는 함수
   Future<void> startScan() async {
     try {
+      await _scanSubscription?.cancel();
       _scanSubscription = FlutterBluePlus.scanResults.listen((event) {
         updateLists(event); // 스캔 결과를 여러 리스트에 업데이트
         scanResultList.sort((a, b) => b.rssi.compareTo(a.rssi)); // RSSI에 따라 정렬
@@ -105,7 +92,7 @@ class BleController extends GetxController {
 
       // isScanning 값이 true인 동안 반복해서 스캔
       while (isScanning.value) {
-        await Future.delayed(const Duration(seconds: 4)); // 4초 대기
+        await Future.delayed(Duration(seconds: timeout)); // 4초 대기
         if (isScanning.value) {
           await _scanForDevices(); // 장치 스캔
         }
@@ -119,7 +106,7 @@ class BleController extends GetxController {
   Future<void> _scanForDevices() async {
     try {
       await FlutterBluePlus.startScan(
-        timeout: const Duration(seconds: 4), // 타임아웃(스캔 시간)
+        timeout: Duration(seconds: timeout), // 타임아웃(스캔 시간)
         continuousUpdates: true, // 실시간 업데이트
         androidScanMode: AndroidScanMode.balanced, // 스캔 모드 설정
         withRemoteIds: beaconList, // beaconList에 있는 MAC주소만 스캔
@@ -142,11 +129,13 @@ class BleController extends GetxController {
   // 스캔 결과를 업데이트하는 함수
   void updateLists(List<ScanResult> results) {
     try {
+      Future.delayed(const Duration(milliseconds: 500));
+
       for (var result in results) {
         final macAddress = result.device.remoteId.toString();
         final rssi = result.rssi;
         final platformName = result.device.platformName;
-        final txPower = result.advertisementData.txPowerLevel;
+        // final txPower = result.advertisementData.txPowerLevel;
 
         // RSSI 업데이트 (Map<String, dynamic>)
         _updateListEntry(
@@ -157,8 +146,8 @@ class BleController extends GetxController {
             {"macAddress": macAddress, "platformName": platformName});
 
         // TxPower 업데이트 (Map<String, dynamic>)
-        _updateListEntry(txPowerList, macAddress,
-            {"macAddress": macAddress, "txpower": txPower});
+        // _updateListEntry(txPowerList, macAddress,
+        //     {"macAddress": macAddress, "txpower": txPower});
       }
 
       rssiList.sort((a, b) => b['rssi'].compareTo(a['rssi']));

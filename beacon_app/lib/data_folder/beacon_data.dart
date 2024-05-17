@@ -39,7 +39,7 @@ class BeaconController extends GetxController {
     RxList<dynamic>(['54:44:A3:EB:E7:E1', 'ID', 6, 150, 280, 0, 'Test2']),
     RxList<dynamic>(['E0:9D:13:86:A9:63', 'ID', 6, 200, 150, 0, 'Test3']),
     RxList<dynamic>(['C4:F3:12:51:AE:21', 'HM1', 0, 0, 0, 0, 'BEACON1']),
-    RxList<dynamic>(['BC:6A:29:C3:44:E2', 'HM2', 0, 0, 0, 0, 'BEACON2']),
+    RxList<dynamic>(['BC:6A:29:C3:44:E2', 'HM2', 6, 200, 150, 0, 'BEACON2']),
     RxList<dynamic>(['34:15:13:88:8A:60', 'HM3', 0, 0, 0, 0, 'BEACON3']),
     RxList<dynamic>(['D4:36:39:6F:BA:D5', 'HM4', 0, 0, 0, 0, 'BEACON4']),
     RxList<dynamic>(['F8:30:02:4A:E4:5F', 'HM5', 0, 500, 350, 0, 'BEACON5']),
